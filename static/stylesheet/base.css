@@ -1,0 +1,243 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script&family=Great+Vibes&family=Orbitron:wght@500&family=Open+Sans&family=Poppins&family=Rubik&display=swap");
+
+body {
+  height: 100vh;
+  margin: 0;
+  background: radial-gradient(
+    circle at center,
+    #0b0530 0%,
+    #14111f 40%,
+    #000000 100%
+  );
+  color: white;
+  transition: background 0.05s ease;
+  overflow: hidden;
+}
+
+.greeting i {
+  font-size: 0.9em; /* adjust as needed */
+  margin-left: 0.3em; /* spacing from text */
+  vertical-align: middle; /* align vertically */
+}
+
+.background-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.1) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: gridMove 20s linear infinite;
+}
+
+@keyframes gridMove {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(10px, 10px);
+  }
+}
+
+.greeting {
+  font-family: "Quicksand", sans-serif;
+  font-size: 1.75rem;
+  text-align: center;
+  color: #d5d2f7;
+  margin-bottom: 2rem;
+}
+
+.clock {
+  font-family: "Quicksand", sans-serif;
+  font-size: 1rem;
+  position: relative;
+  margin-top: -1.2rem;
+  color: #fff;
+  letter-spacing: 0.2rem;
+  text-align: center;
+}
+
+.title {
+  font-family: "Orbitron", sans-serif;
+  font-weight: bold;
+  letter-spacing: 0.2rem;
+  margin: 0;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.tagline {
+  font-style: italic;
+  font-family: "Quicksand", sans-serif;
+  font-size: 1rem;
+  color: #d5d2f7;
+  margin-bottom: 1rem;
+}
+.center-content {
+  text-align: center;
+  overflow: hidden;
+}
+
+/* div up */
+.space-up {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.dynamic-content-up {
+  font-family: "Quicksand", sans-serif;
+  width: 100%;
+  min-width: 0;
+  flex: 1 1 0;
+  margin-top: 1rem;
+  max-height: 250px;
+  border-radius: 1rem;
+  background-color: rgba(30, 30, 30, 0.2);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(1px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.features-left {
+  margin-left: 1rem;
+  align-content: center;
+  max-width: 400px;
+}
+.center-content {
+  max-width: 650px;
+}
+.features-right {
+  max-width: 450px;
+  margin-right: 1rem;
+}
+
+.features-left,
+.center-content,
+.features-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+/* div down */
+.space-down {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.dynamic-content-down {
+  font-family: "Quicksand", sans-serif;
+  width: 100%;
+  min-width: 0;
+  max-height: 550px;
+  flex: 1 1 0;
+  margin-top: 1rem;
+  border-radius: 1rem;
+  background-color: rgba(30, 30, 30, 0.2);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(1px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.features-left-down {
+  margin-left: 1rem;
+  max-width: 400px;
+}
+.center-content-down {
+  max-width: 650px;
+}
+.features-right-down {
+  max-width: 450px;
+  margin-right: 1rem;
+}
+
+.features-left-down,
+.center-content-down,
+.features-right-down {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.log-out i {
+  color: #9995cb;
+}
+
+.log-out {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  cursor: pointer;
+  cursor: pointer;
+  font-size: 1.5rem; /* or 24px */
+  transition: all 0.2s ease-in-out;
+}
+
+.log-out:hover {
+  transform: scale(1.1);
+}
+
+.auth-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.auth-box h2 {
+  letter-spacing: 0.5rem;
+  margin: 1rem;
+}
+.auth-box {
+  font-family: "Orbitron", sans-serif;
+  color: #d5d2f7;
+  box-shadow: 0 4px 10px #130a4e;
+  background-color: #14111f;
+  padding: 2.5rem 2rem;
+  border-radius: 2rem;
+  text-align: center;
+  /* Responsive settings */
+  width: 80%;
+  max-width: 400px;
+  box-sizing: border-box;
+}
+
+.google-btn {
+  font-family: "Quicksand", sans-serif;
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: #d5d2f7;
+  color: #333;
+  border-radius: 2rem;
+  font-weight: bolder;
+  text-decoration: none;
+  margin-top: 1rem;
+  transition: all 0.2s ease;
+}
+
+.google-btn i {
+  margin-right: 0.5rem;
+}
+
+.google-btn:hover {
+  color: black;
+  box-shadow: 0 8px 20px #1c0e75;
+}

@@ -1,0 +1,41 @@
+/* Bottom content display area */
+#dynamic-content-down2 {
+  background-color: rgba(30, 30, 30, 0.2);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 1rem;
+  color: white;
+  padding: 0rem 1rem 0rem 1rem;
+}
+
+.context-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 0.5rem;
+  transition: opacity 0.5s ease;
+  display: block;
+}
+
+.user-query {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.wiki-summary p {
+  margin-bottom: 1rem;
+  line-height: 1.5;
+  font-size: 1rem;
+  color: #d5d2f7;
+}
+
+#dynamic-content-down2 {
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+#dynamic-content-down2::-webkit-scrollbar {
+  display: none;
+}

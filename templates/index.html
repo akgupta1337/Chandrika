@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>C.H.A.N.D.R.I.K.A - Personal Assistant</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins&family=Nunito&family=Raleway&family=Quicksand&family=Inter&family=Montserrat&family=Lato&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/f9158a6120.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="icon" type="image/svg+xml" href="/static/images/favicon.svg" />
+    <link rel="stylesheet" href="/static/stylesheet/base.css" />
+    <link rel="stylesheet" href="/static/stylesheet/music.css" />
+    <link rel="stylesheet" href="/static/stylesheet/weather.css" />
+    <link rel="stylesheet" href="/static/stylesheet/orb.css" />
+    <link rel="stylesheet" href="/static/stylesheet/responsive.css" />
+    <link rel="stylesheet" href="/static/stylesheet/task.css" />
+    <link rel="stylesheet" href="/static/stylesheet/news.css" />
+    <link rel="stylesheet" href="/static/stylesheet/wiki.css" />
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="/static/javascript/base.js" defer></script>
+    <script src="/static/javascript/music.js" defer></script>
+    <script src="/static/javascript/orb.js" defer></script>
+    <script src="/static/javascript/weather.js" defer></script>
+    <script src="/static/javascript/task.js" defer></script>
+    <script src="/static/javascript/news.js" defer></script>
+    <script src="/static/javascript/wiki.js" defer></script>
+  </head>
+
+  <body>
+    <div class="background-grid"></div>
+    <div class="particles" id="particles"></div>
+    {% if not user %}
+    <div class="auth-overlay">
+      <div class="auth-box">
+        <h2>Welcome</h2>
+        <a href="/login" class="google-btn">
+          <i class="fa-brands fa-google"></i> Sign in with Google</a
+        >
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="space-up">
+      <div class="features-left">
+        <div id="dynamic-content-up1" class="dynamic-content-up"></div>
+      </div>
+
+      <div class="center-content">
+        <div id="dynamic-content-up2" class="dynamic-content-up"></div>
+      </div>
+
+      <div class="features-right">
+        <div id="dynamic-content-up3" class="dynamic-content-up"></div>
+      </div>
+    </div>
+
+    <div class="space-down">
+      <div class="features-left-down">
+        <div id="dynamic-content-down1" class="dynamic-content-down"></div>
+      </div>
+      <div class="center-content-down">
+        <div id="dynamic-content-down2" class="dynamic-content-down"></div>
+      </div>
+      <div class="features-right-down">
+        <div id="dynamic-content-down3" class="dynamic-content-down"></div>
+      </div>
+    </div>
+
+    <div class="log-out">
+      <a href="/logout">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i
+      ></a>
+    </div>
+
+    <!-- <div class="mic-wrapper">
+      <div class="mic-button" id="mic">
+        <div class="central-orb" id="centralOrb">
+          <div class="status-text" id="statusText">Ready</div>
+        </div>
+      </div>
+    </div> -->
+  </body>
+</html>
