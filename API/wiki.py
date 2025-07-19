@@ -4,8 +4,11 @@ import requests
 import os
 import json
 
-API_KEY = "AIzaSyDFVHr3fsB8ogxst4C63bWAPj6kr1gfLUA"
-SEARCH_ENGINE_ID = "e2b224aa59e414ca4"
+from dotenv import load_dotenv
+
+load_dotenv()
+API_KEY = os.environ.get("GAPI_KEY")
+SEARCH_ENGINE_ID = os.environ.get("ENG_ID")
 CACHE_DIR = "cache"
 
 os.makedirs(CACHE_DIR, exist_ok=True)

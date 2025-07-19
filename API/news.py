@@ -2,11 +2,13 @@ from newsapi import NewsApiClient
 from datetime import datetime
 import os
 import json
+from dotenv import load_dotenv
 
+load_dotenv()
+api = os.environ.get("NEWS_API")
 CACHE_FILE = "cached_news.json"
 DATE_FILE = "current_date.txt"
-
-newsapi = NewsApiClient(api_key="c47fd280ef5f4a74b6071ea70660e37a")
+newsapi = NewsApiClient(api_key=api)
 
 
 def get_all_news(query):

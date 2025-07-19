@@ -1,9 +1,9 @@
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request as GoogleRequest
 from supabase import create_client, Client
-from dotenv import load_dotenv
 import os
 from fastapi import Request, HTTPException
+from dotenv import load_dotenv
 
 
 load_dotenv()
