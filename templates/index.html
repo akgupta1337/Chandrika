@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="/static/stylesheet/task.css" />
     <link rel="stylesheet" href="/static/stylesheet/news.css" />
     <link rel="stylesheet" href="/static/stylesheet/wiki.css" />
+    <link rel="stylesheet" href="/static/stylesheet/chat.css" />
 
     <script src="https://www.youtube.com/iframe_api"></script>
     <script src="/static/javascript/base.js" defer></script>
@@ -30,6 +31,7 @@
     <script src="/static/javascript/task.js" defer></script>
     <script src="/static/javascript/news.js" defer></script>
     <script src="/static/javascript/wiki.js" defer></script>
+    <script src="/static/javascript/chat.js" defer></script>
   </head>
 
   <body>
@@ -46,29 +48,67 @@
     </div>
     {% endif %}
 
-    <div class="space-up">
+    <div class="merged-space">
       <div class="features-left">
-        <div id="dynamic-content-up1" class="dynamic-content-up"></div>
+        <div id="dynamic-content-up1" class="dynamic-content-up">weather</div>
+        <div id="dynamic-content-down1" class="dynamic-content-down">task</div>
       </div>
 
       <div class="center-content">
-        <div id="dynamic-content-up2" class="dynamic-content-up"></div>
+        <div
+          id="dynamic-content-up2"
+          class="dynamic-content-up center-expanded"
+        >
+          <div class="greeting">Good evening! How can I assist you today?</div>
+          <div class="chat-input-box">
+            <input
+              type="text"
+              class="chat-input"
+              placeholder="Ask me anything..."
+              id="chatInput"
+            />
+            <button class="btn mic-btn" id="micBtn">
+              <i class="fas fa-microphone"></i>
+            </button>
+          </div>
+
+          <!-- Chat interface elements (hidden by default) -->
+          <div class="chat-header" style="display: none">
+            <div class="chat-title">C.H.A.N.D.R.I.K.A</div>
+            <button class="close-chat" id="closeChat">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+
+          <div class="chat-messages" id="chatMessages" style="display: none">
+            <!-- Messages will be dynamically added here -->
+          </div>
+
+          <div class="typing-indicator" id="typingIndicator">
+            <div class="typing-dots">
+              <div class="typing-dot"></div>
+              <div class="typing-dot"></div>
+              <div class="typing-dot"></div>
+            </div>
+          </div>
+
+          <div class="chat-input-container" style="display: none">
+            <input
+              type="text"
+              class="chat-input-field"
+              placeholder="Type your message..."
+              id="chatInputField"
+            />
+            <button class="send-btn" id="sendBtn">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </div>
+        </div>
       </div>
 
       <div class="features-right">
-        <div id="dynamic-content-up3" class="dynamic-content-up"></div>
-      </div>
-    </div>
-
-    <div class="space-down">
-      <div class="features-left-down">
-        <div id="dynamic-content-down1" class="dynamic-content-down"></div>
-      </div>
-      <div class="center-content-down">
-        <div id="dynamic-content-down2" class="dynamic-content-down"></div>
-      </div>
-      <div class="features-right-down">
-        <div id="dynamic-content-down3" class="dynamic-content-down"></div>
+        <div id="dynamic-content-up3" class="dynamic-content-up">music</div>
+        <div id="dynamic-content-down3" class="dynamic-content-down">news</div>
       </div>
     </div>
 
@@ -77,13 +117,5 @@
         <i class="fa-solid fa-arrow-right-from-bracket"></i
       ></a>
     </div>
-
-    <!-- <div class="mic-wrapper">
-      <div class="mic-button" id="mic">
-        <div class="central-orb" id="centralOrb">
-          <div class="status-text" id="statusText">Ready</div>
-        </div>
-      </div>
-    </div> -->
   </body>
 </html>

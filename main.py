@@ -4,7 +4,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
 from google_auth_oauthlib.flow import Flow
-from API import utils, task, news, weather, sysinfo, wiki
+from API import utils, task, news, weather, sysinfo, wiki, handleQuery
 import uvicorn
 import requests
 import os
@@ -36,10 +36,9 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 
-@app.get("/", response_class=HTMLResponse)
-async def homepage(request: Request):
+@app.get("/api/greeting")
+async def get_greeting(request: Request):
     user = request.cookies.get("user")
-
     # Get current hour
     hour = datetime.now().hour
     if 4 <= hour < 6:
@@ -64,9 +63,15 @@ async def homepage(request: Request):
         greeting = "Midnight Greetings"
         icon = "fas fa-bed"
 
+    return {"user": user, "greeting": greeting, "greeting_icon": icon}
+
+
+@app.get("/", response_class=HTMLResponse)
+async def homepage(request: Request):
+    user = request.cookies.get("user")
     return templates.TemplateResponse(
         "index.html",
-        {"request": request, "user": user, "greeting": greeting, "greeting_icon": icon},
+        {"request": request, "user": user},
     )
 
 
@@ -222,6 +227,12 @@ def get_images(query):
         return wiki.search_images(query)
     except Exception as e:
         return {"error": str(e)}
+
+
+@app.get("/get_query_type")
+def get_query_type(query):
+    result = handleQuery.route_query(query)
+    return JSONResponse(content=result)
 
 
 if __name__ == "__main__":

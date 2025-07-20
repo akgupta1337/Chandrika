@@ -77,21 +77,35 @@ window.addEventListener("load", () => {
   }
 });
 
-function getGreeting() {
-  const hour = new Date().getHours();
-  if (hour < 12) return { text: "Good Morning", icon: "fas fa-sun" };
-  if (hour < 18) return { text: "Good Afternoon", icon: "fas fa-cloud-sun" };
-  return { text: "Good Evening", icon: "fas fa-moon" };
+async function getGreeting() {
+  try {
+    const response = await fetch("/api/greeting");
+    const data = await response.json();
+    return {
+      text: data.greeting,
+      icon: data.greeting_icon,
+      user: data.user,
+    };
+  } catch (error) {
+    console.error("Error fetching greeting:", error);
+    // Fallback to client-side logic
+    const hour = new Date().getHours();
+    if (hour < 12)
+      return { text: "Good Morning", icon: "fas fa-sun", user: null };
+    if (hour < 18)
+      return { text: "Good Afternoon", icon: "fas fa-cloud-sun", user: null };
+    return { text: "Good Evening", icon: "fas fa-moon", user: null };
+  }
 }
 
-function renderContent() {
-  const { text, icon } = getGreeting();
-  const container = document.getElementById("dynamic-content-up2");
+async function renderContent() {
+  const { text, icon, user } = await getGreeting();
 
-  container.innerHTML = `
+  const greetingContainer = document.querySelector(".greeting");
+  greetingContainer.innerHTML = `
     <h1 class="title">C.H.A.N.D.R.I.K.A</h1>
     <p class="tagline" id="tagline">Your Personal Assistant</p>
-    <h2 class="greeting"><i class="${icon}"></i> ${text}</h2>
+    <h2><i class="${icon}"></i> ${text}${user ? ", " + user : ""}</h2>
     <div class="clock"><h1 id="date-time"></h1></div>
   `;
 }

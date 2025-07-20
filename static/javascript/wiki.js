@@ -3,7 +3,7 @@ async function fetchWikiContext(query) {
     `/get_wiki_context?query=${encodeURIComponent(query)}`
   );
   if (!response.ok) throw new Error("Failed to fetch context");
-  return await response.json(); // assume list of paragraphs or one long string
+  return await response.json();
 }
 
 async function fetchImages(query) {
@@ -11,12 +11,12 @@ async function fetchImages(query) {
     `/get_images?query=${encodeURIComponent(query)}`
   );
   if (!response.ok) throw new Error("Failed to fetch images");
-  return await response.json(); // assume list of image URLs
+  return await response.json();
 }
 
 function updateImageCarousel(images) {
   const imageContainer = document.getElementById("dynamic-content-up2");
-  imageContainer.innerHTML = ""; // Clear existing content
+  imageContainer.innerHTML = "";
 
   const img = document.createElement("img");
   img.className = "context-image";

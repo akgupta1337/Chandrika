@@ -105,10 +105,9 @@ def search_images(query):
         "key": API_KEY,
         "cx": SEARCH_ENGINE_ID,
         "lr": "lang_en",
-        "num": 5,
+        "num": 3,
         "searchType": "image",
         "imgSize": "xxlarge",
-        "imgType": "photo",
     }
 
     try:

@@ -68,5 +68,5 @@ async function loadSystemInfo() {
   }
 }
 
-loadSystemInfo();
+// loadSystemInfo();
 loadWeatherLeft();
