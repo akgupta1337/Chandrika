@@ -22,7 +22,7 @@ def search(query):
         "key": API_KEY,
         "cx": SEARCH_ENGINE_ID,
         "lr": "lang_en",
-        "num": 2,
+        "num": 1,
     }
 
     try:

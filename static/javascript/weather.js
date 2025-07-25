@@ -12,10 +12,22 @@ const dayName = now.toLocaleDateString("en-GB", {
   weekday: "long",
 });
 
+async function getWeatherDetails(day = 1) {
+  try {
+    const res = await fetch(`/api/weather?day=${day}`);
+    if (!res.ok) throw new Error("Failed to fetch weather data");
+
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.error("Error fetching weather:", err);
+    return null;
+  }
+}
+
 async function loadWeatherLeft() {
   try {
-    const res = await fetch("/api/weather");
-    const data = await res.json();
+    const data = await getWeatherDetails();
     const place = data.city + ", " + data.region;
     const container = document.getElementById("dynamic-content-up1");
 

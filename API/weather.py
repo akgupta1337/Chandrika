@@ -2,9 +2,9 @@ import os
 import json
 import requests
 import requests_cache
+from retry_requests import retry
 import openmeteo_requests
 from datetime import datetime
-from retry_requests import retry
 import unicodedata
 
 # Constants
@@ -59,54 +59,39 @@ def get_location():
         return json.load(f)
 
 
-def fetch_weather(location):
-    session = requests_cache.CachedSession(CACHE_DIR, expire_after=3600)
-    retry_session = retry(session, retries=3, backoff_factor=0.3)
-    client = openmeteo_requests.Client(session=retry_session)
+def fetch_weather(location, day):
+    assert 1 <= day <= 3, "Day must be 1, 2, or 3"
 
+    url = "https://api.open-meteo.com/v1/forecast"
     params = {
         "latitude": location["latitude"],
         "longitude": location["longitude"],
-        "current": [
-            "temperature_2m",
-            "precipitation",
-            # "relative_humidity_2m",
-            # "apparent_temperature",
-            # "is_day",
-            # "rain",
-            # "showers",
-        ],
+        "daily": "temperature_2m_max,temperature_2m_min,precipitation_sum",
         "timezone": "auto",
-        "forecast_days": 1,
     }
 
-    response = client.weather_api(
-        "https://api.open-meteo.com/v1/forecast", params=params
-    )[0]
-    current = response.Current()
-    date = datetime.today().strftime("%d %B %Y")
+    response = requests.get(url, params=params)
+    data = response.json()
+    daily = data["daily"]
+    i = day - 1
 
     return {
         "city": location["city"],
         "region": location["region"],
-        "temperature": int(current.Variables(0).Value()),
-        "date": date,
-        "precipitation": current.Variables(1).Value(),
-        # "humidity": current.Variables(1).Value(),
-        # "feels_like": current.Variables(2).Value(),
-        # "is_day": bool(current.Variables(3).Value()),
-        # "rain": current.Variables(5).Value(),
-        # "showers": current.Variables(6).Value(),
+        "date": daily["time"][i],
+        "temperature": daily["temperature_2m_max"][i],
+        "min_temp": daily["temperature_2m_min"][i],
+        "precipitation": daily["precipitation_sum"][i],
     }
 
 
-def get_weather_data():
+def get_weather_data(day):
     update_location_if_needed()
     location = get_location()
-    return fetch_weather(location)
+    return fetch_weather(location, day)
 
 
 # Optional CLI execution
 if __name__ == "__main__":
-    weather = get_weather_data()
+    weather = get_weather_data(2)
     print(json.dumps(weather, indent=2))

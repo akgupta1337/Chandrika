@@ -3,6 +3,7 @@ from datetime import datetime
 import os
 import json
 from dotenv import load_dotenv
+from time import time
 
 load_dotenv()
 api = os.environ.get("NEWS_API")
@@ -10,15 +11,48 @@ CACHE_FILE = "cached_news.json"
 DATE_FILE = "current_date.txt"
 newsapi = NewsApiClient(api_key=api)
 
+CACHE_FILE2 = "news_cache.json"
+CACHE_TIMEOUT = 300  # 5 minutes
+
+
+# Load cache from file if exists
+def load_cache():
+    if os.path.exists(CACHE_FILE2):
+        with open(CACHE_FILE2, "r") as f:
+            return json.load(f)
+    return {}
+
+
+# Save cache to file
+def save_cache(cache):
+    with open(CACHE_FILE2, "w") as f:
+        json.dump(cache, f)
+
 
 def get_all_news(query):
-    # Fetch articles
+    cache = load_cache()
+    now = time()
+
+    # Check if query exists and is not expired
+    if query in cache:
+        entry = cache[query]
+        if now - entry["timestamp"] < CACHE_TIMEOUT:
+            return entry["articles"]
+
+    # Fetch new data
     all_articles = newsapi.get_everything(
         q=query,
         language="en",
         sort_by="relevancy",
         page_size=10,
     )
+
+    # Save to cache
+    cache[query] = {
+        "timestamp": now,
+        "articles": all_articles,
+    }
+    save_cache(cache)
 
     return all_articles
 

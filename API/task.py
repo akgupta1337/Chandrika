@@ -116,3 +116,81 @@ def delete_old_completed_tasks_from_list(tasks, service):
                 service.tasks().delete(
                     tasklist=task["taskListId"], task=task["id"]
                 ).execute()
+
+
+from datetime import datetime, timedelta
+import re
+
+WEEKDAYS = {
+    "monday": 0,
+    "tuesday": 1,
+    "wednesday": 2,
+    "thursday": 3,
+    "friday": 4,
+    "saturday": 5,
+    "sunday": 6,
+}
+
+
+def parse_date_string(date_str: str) -> str:
+    date_str = (date_str or "today").strip().lower()
+    today = datetime.utcnow().date()
+
+    if date_str in ("", "today"):
+        return today.strftime("%Y-%m-%d")
+    elif date_str == "tomorrow":
+        return (today + timedelta(days=1)).strftime("%Y-%m-%d")
+    elif date_str in WEEKDAYS:
+        current_weekday = today.weekday()
+        target_weekday = WEEKDAYS[date_str]
+        days_ahead = (target_weekday - current_weekday + 7) % 7 or 7
+        return (today + timedelta(days=days_ahead)).strftime("%Y-%m-%d")
+    elif re.match(r"^\d{4}-\d{2}-\d{2}$", date_str):
+        return date_str
+    else:
+        raise ValueError("Invalid date format")
+
+
+def parse_time_string(time_str: str) -> str:
+    time_str = time_str.strip().lower()
+    for fmt in ("%H:%M", "%I %p", "%I:%M %p"):
+        try:
+            return datetime.strptime(time_str, fmt).strftime("%H:%M")
+        except ValueError:
+            continue
+    raise ValueError("Invalid time format")
+
+
+def set_todo_and_reminder(service, arguments: dict):
+    tasklist_id = "@default"
+    task_name = arguments.get("task_name")
+    time_str = arguments.get("time")
+
+    if not task_name or not time_str:
+        print("Missing required fields: 'task_name' and 'time'")
+        return None
+
+    try:
+        # Use default "today" and "" if missing
+        date_str = arguments.get("date", "today")
+        description = arguments.get("description", "")
+
+        due_date = parse_date_string(date_str)
+        due_time = parse_time_string(time_str)
+        due_rfc3339 = f"{due_date}T{due_time}:00.000Z"
+
+        task_body = {
+            "title": task_name,
+            "due": due_rfc3339,
+        }
+
+        if description:
+            task_body["notes"] = description
+
+        result = service.tasks().insert(tasklist=tasklist_id, body=task_body).execute()
+        print(f"Task '{task_name}' added successfully.")
+        return result
+
+    except (ValueError, HttpError) as e:
+        print(f"Failed to add task: {e}")
+        return None

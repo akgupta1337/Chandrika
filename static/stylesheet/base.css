@@ -216,7 +216,7 @@ body {
   min-height: 550px;
 }
 .center-expanded {
-  max-height: 900px;
+  max-height: 850px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;

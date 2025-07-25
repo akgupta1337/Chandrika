@@ -1,10 +1,10 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Body
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
 from google_auth_oauthlib.flow import Flow
-from API import utils, task, news, weather, sysinfo, wiki, handleQuery
+from API import utils, task, news, weather, sysinfo, wiki, arch3b
 import uvicorn
 import requests
 import os
@@ -139,9 +139,18 @@ def logout():
 
 
 @app.get("/api/weather")
-def get_weather():
-    data = weather.get_weather_data()
+def get_weather(day: int = 1):
+    data = weather.get_weather_data(day)
     return JSONResponse(content=data)
+
+
+@app.get("/api/weather_summary")
+def get_weather_summary(day: int = 1):
+    data = weather.get_weather_data(day)
+    data_str = ", ".join(f"{k}: {v}" for k, v in data.items())
+
+    summary = arch3b.get_summary(data_str)
+    return JSONResponse(content=summary)
 
 
 @app.get("/api/tasks")
@@ -192,10 +201,12 @@ def complete_task(payload: CompleteTaskPayload, request: Request):
 
 
 @app.get("/api/news")
-def get_news(request: Request):
+def get_news(query: str = "india"):
     try:
-
-        all_articles = news.get_today_news()
+        if query == "india":
+            all_articles = news.get_today_news()
+        else:
+            all_articles = news.get_all_news(query)
         return JSONResponse(content=all_articles)
 
     except Exception as e:
@@ -213,10 +224,16 @@ def get_system_info(request: Request):
 from typing import List, Union
 
 
-@app.get("/get_wiki_context", response_model=Union[List[str], str])
+@app.get("/get_wiki_context")
 def get_wiki_context(query):
     try:
-        return wiki.get_context(query)
+        contexts = wiki.get_context(query)
+        result = " ".join(contexts)
+        summary = arch3b.get_summary(
+            result[:500],
+            "Summarize the following context clearly and concisely. Focus on capturing the key ideas, facts, or events without unnecessary repetition.",
+        )
+        return summary
     except Exception as e:
         return {"error": str(e)}
 
@@ -231,8 +248,34 @@ def get_images(query):
 
 @app.get("/get_query_type")
 def get_query_type(query):
-    result = handleQuery.route_query(query)
-    return JSONResponse(content=result)
+    result = arch3b.route_query(query)
+    return result
+
+
+@app.post("/add_task")
+def add_task(request: Request, arguments: dict = Body(...)):
+    google_id = request.cookies.get("google_id")
+    if not google_id:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+
+    user = utils.get_user_by_google_id(google_id)
+
+    creds = utils.build_credentials(user)
+
+    if creds.expired and creds.refresh_token:
+        creds.refresh(Request())
+
+    # Step 4: Call the Tasks API
+    service = build("tasks", "v1", credentials=creds)
+    if not arguments.get("description"):  # empty string or missing key
+        arguments["description"] = arch3b.get_summary(
+            "Summarize this task and give it a very small description "
+            + arguments["task_name"],
+            "You are a helpful assistant.",
+        )
+    task.set_todo_and_reminder(service, arguments)
+
+    return "Reminder" + arguments["task_name"] + " added"
 
 
 if __name__ == "__main__":
