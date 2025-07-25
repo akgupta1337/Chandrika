@@ -149,7 +149,7 @@ def get_weather_summary(day: int = 1):
     data = weather.get_weather_data(day)
     data_str = ", ".join(f"{k}: {v}" for k, v in data.items())
 
-    summary = arch3b.get_summary(data_str)
+    summary = arch3b.get_summary(data_str, "Summarize these weather details")
     return JSONResponse(content=summary)
 
 

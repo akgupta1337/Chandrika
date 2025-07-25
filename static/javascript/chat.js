@@ -522,7 +522,7 @@ function onPlayerError(event) {
 }
 
 function onPlayerReady(event) {
-  // loadPlaylist("love");
+  loadPlaylist("love");
   // setTimeout(() => document.getElementById("play-btn").click(), 1000);
 }
 
