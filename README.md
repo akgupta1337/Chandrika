@@ -4,8 +4,6 @@ An interactive, voice-controlled personal assistant built with a lightweight fro
 ---
 ## 📚 Learn More
 - 📝 [Technical Deep Dive on Medium](https://medium.com/@akgupta1337/breaking-the-6gb-barrier-how-i-optimized-function-calling-llms-for-resource-constrained-491683b6955d) - Learn about the optimization techniques and architecture decisions
-  
-![Arch 3b LLM](ss/llm.png)
 
 ## 📸 Image Examples
 
