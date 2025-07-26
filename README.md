@@ -1,7 +1,7 @@
 # 🔧 AI-Powered Personal Assistant
 
 An interactive, voice-controlled personal assistant built with a lightweight frontend and a Python-based backend. It leverages cutting-edge LLM technologies and tool-calling capabilities for real-time tasks like Wikipedia summarization, image fetching, task management, and more.
-
+https://medium.com/@akgupta1337/breaking-the-6gb-barrier-how-i-optimized-function-calling-llms-for-resource-constrained-491683b6955d
 ---
 ![Arch 3b LLM](ss/llm.png)
 
